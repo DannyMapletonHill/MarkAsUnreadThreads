@@ -20,11 +20,19 @@ import {storeData} from "./store/reducers/uiStoreDataReducer";
 import {WriteNewMessageEffectService} from "./store/effects/write-new-message-effect.service";
 import {ServerNotificationsEffectService} from "./store/effects/server-notifications-effect.service";
 import { MarkMessagesAsReadEffectService } from 'app/store/effects/mark-messages-as-read-effect.service';
-
+import { MessagesComponent } from './messages/messages.component';
+import { compose } from '@ngrx/core';
+import {storeFreeze} from 'ngrx-store-freeze';
+import {RouterModule} from '@angular/router';
+import { routes } from 'app/routes';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import { routerReducer, RouterStoreModule } from '@ngrx/router-store';
 
 const reducers = {
     uiState,
-    storeData
+    storeData,
+    router: routerReducer
 };
 
 const combinedReducer = combineReducers(reducers);
@@ -34,6 +42,8 @@ export function storeReducer(state: ApplicationState, action: Action) {
 }
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,13 +51,18 @@ export function storeReducer(state: ApplicationState, action: Action) {
     ThreadSectionComponent,
     MessageSectionComponent,
     ThreadListComponent,
-    MessageListComponent
+    MessageListComponent,
+    MessagesComponent,
+    HomeComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-      StoreModule.provideStore(storeReducer, INITIAL_APPLICATION_STATE),
+      RouterModule.forRoot(routes, {useHash: true}),
+      StoreModule.provideStore(compose(storeFreeze, combineReducers)(reducers), INITIAL_APPLICATION_STATE),
+      RouterStoreModule.connectRouter(),
       EffectsModule.run(LoadThreadsEffectService),
       EffectsModule.run(WriteNewMessageEffectService),
       EffectsModule.run(ServerNotificationsEffectService),

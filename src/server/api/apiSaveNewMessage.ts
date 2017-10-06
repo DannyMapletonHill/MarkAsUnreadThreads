@@ -11,12 +11,13 @@ import {findThreadById} from "../persistence/findThreadById";
 let messageIdCounter = 20;
 
 
-
 export function apiSaveNewMessage(app: Application) {
 
     app.route('/api/threads/:id').post((req, res) => {
 
         const payload = req.body;
+
+        //throw new Error("Error occured"); demo error trigger
 
         const threadId = parseInt(req.params.id),
             participantId = parseInt(req.headers['userid']);
