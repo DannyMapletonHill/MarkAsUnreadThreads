@@ -45,8 +45,14 @@ function handleLoadUserThreadsAction(state:StoreData, action: UserThreadsLoadedA
 
 
 function handleSendNewMessageAction(state:StoreData, action: SendNewMessageAction) {
+    //const newStoreState = _.cloneDeep(state)
+    const newStoreState: StoreData = {
+        participants: state.participants,
+        threads: Object.assign({}, state.threads),
+        messages: Object.assign({}, state.messages)
+    }
 
-    const newStoreState = _.cloneDeep(state);
+    newStoreState.threads[action.payload.threadId] = Object.assign({}, state.threads[action.payload.threadId])
 
     const currentThread = newStoreState.threads[action.payload.threadId];
 
@@ -58,6 +64,7 @@ function handleSendNewMessageAction(state:StoreData, action: SendNewMessageActio
         id:uuid()
     };
 
+    currentThread.messageIds = currentThread.messageIds.slice(0); // copy references without duplicating them  
     currentThread.messageIds.push(newMessage.id);
 
     newStoreState.messages[newMessage.id] = newMessage;
@@ -68,7 +75,12 @@ function handleSendNewMessageAction(state:StoreData, action: SendNewMessageActio
 
 function handleNewMessagesReceivedAction(state:StoreData, action: NewMessagesReceivedAction) {
 
-    const newStoreState = _.cloneDeep(state);
+    //const newStoreState = _.cloneDeep(state);
+    const newStoreState: StoreData = {
+        participants: state.participants,
+        threads: Object.assign({}, state.threads),
+        messages: Object.assign({}, state.messages)
+    }
 
     const newMessages = action.payload.unreadMessages,
         currentThreadId = action.payload.currentThreadId,
@@ -77,6 +89,11 @@ function handleNewMessagesReceivedAction(state:StoreData, action: NewMessagesRec
     newMessages.forEach(message => {
 
         newStoreState.messages[message.id] = message;
+
+        newStoreState.threads[message.threadId] = Object.assign({}, state.threads[message.threadId]);
+
+        newStoreState.threads[message.threadId].messageIds= newStoreState.threads[message.threadId].messageIds.slice(0);
+
         newStoreState.threads[message.threadId].messageIds.push(message.id);
 
         if (message.threadId !== currentThreadId) {

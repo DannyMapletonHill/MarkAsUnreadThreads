@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {ThreadsService} from "../services/threads.service";
 import {Store} from "@ngrx/store";
 import {ApplicationState} from "../store/application-state";
@@ -14,7 +14,8 @@ import * as _ from 'lodash';
 @Component({
     selector: 'thread-section',
     templateUrl: './thread-section.component.html',
-    styleUrls: ['./thread-section.component.css']
+    styleUrls: ['./thread-section.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThreadSectionComponent {
 
