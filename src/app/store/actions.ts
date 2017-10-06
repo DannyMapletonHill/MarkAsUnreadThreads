@@ -14,7 +14,6 @@ export const SELECT_USER_ACTION = 'SELECT_USER_ACTION';
 export const SEND_NEW_MESSAGE_ACTION = 'SEND_NEW_MESSAGE_ACTION';
 export const NEW_MESSAGES_RECEIVED_ACTION = 'NEW_MESSAGES_RECEIVED_ACTION';
 
-
 export class LoadUserThreadsAction implements  Action {
 
     readonly type = LOAD_USER_THREADS_ACTION;
@@ -36,11 +35,16 @@ export class UserThreadsLoadedAction implements Action {
 
 }
 
+export interface ThreadSelectedActionPayload{
+    selectedThreadId: number;
+    currentUserId: number;
+}
+
 export class  ThreadSelectedAction implements Action {
 
     readonly type = THREAD_SELECTED_ACTION;
 
-    constructor(public payload: number) {
+    constructor(public payload?: ThreadSelectedActionPayload) {
 
     }
 

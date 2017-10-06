@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 export function apiUpdateThread(app: Application) {
 
     app.route('/api/threads/:id').patch((req, res) => {
-
+        debugger;
         const participantId = req.headers['userid'];
 
         const threadId = req.params['id'];
