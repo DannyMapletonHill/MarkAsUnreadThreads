@@ -28,6 +28,7 @@ import { routerReducer, RouterStoreModule } from '@ngrx/router-store';
 import { ThreadsService } from 'app/services/threads.service';
 import { combineReducers, StoreModule, Action } from '@ngrx/store';
 import { MessageListComponent } from 'app/message-list/message-list.component';
+import { ChatMessageComponent } from './chat-message/chat-message.component';
 
 
 const reducers = {
@@ -52,7 +53,8 @@ export function storeReducer(state: ApplicationState, action: Action) {
     MessageListComponent,
     MessagesComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    ChatMessageComponent
   ],
   imports: [
     BrowserModule,
