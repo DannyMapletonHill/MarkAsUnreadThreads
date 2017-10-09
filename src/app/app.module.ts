@@ -8,9 +8,6 @@ import { UserSelectionComponent } from './user-selection/user-selection.componen
 import { ThreadSectionComponent } from './thread-section/thread-section.component';
 import { MessageSectionComponent } from './message-section/message-section.component';
 import { ThreadListComponent } from './thread-list/thread-list.component';
-import { MessageListComponent } from './message-list/message-list.component';
-import {ThreadsService} from "./services/threads.service";
-import {StoreModule, combineReducers, Action} from "@ngrx/store";
 import {ApplicationState, INITIAL_APPLICATION_STATE} from "./store/application-state";
 import {EffectsModule} from "@ngrx/effects";
 import {LoadThreadsEffectService} from "./store/effects/load-threads-effect.service";
@@ -28,21 +25,22 @@ import { routes } from 'app/routes';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { routerReducer, RouterStoreModule } from '@ngrx/router-store';
+import { ThreadsService } from 'app/services/threads.service';
+import { combineReducers, StoreModule, Action } from '@ngrx/store';
+import { MessageListComponent } from 'app/message-list/message-list.component';
+
 
 const reducers = {
-    uiState,
-    storeData,
-    router: routerReducer
+  uiState,
+  storeData,
+  router: routerReducer
 };
 
 const combinedReducer = combineReducers(reducers);
 
 export function storeReducer(state: ApplicationState, action: Action) {
-    return combinedReducer(state, action);
+  return combinedReducer(state, action);
 }
-
-
-
 
 @NgModule({
   declarations: [
